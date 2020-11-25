@@ -14,19 +14,27 @@
 
 import { html } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
+import { styleMap } from 'lit-html/directives/style-map.js';
 
 import { Popover } from './popover.component';
 
 export default function template(this: Popover) {
-    
     const classes = {
         'is-open': this.open,
+    }
+
+    const styles = {
+        'max-height': this.maxHeight + 'px',
+        'max-width': 'fit-content',
+        'padding': '0px 8px 0px 8px',
+        'overflow-y': 'auto',
+        'overflow-x': 'hidden',
     }
 
     return html`
     <slot name="dropdown-trigger"></slot>
     <slot name="return-toline"></slot>
-    <div class="spectrum-Popover spectrum-Popover--bottom spectrum-Dropdown-popover ${classMap(classes)}" style="max-width: fit-content; padding: 0px 8px 0px 8px" @click="${(!this.disabled)? this.handleClick: this.handleDisabledClick}">
+    <div id="popover-element" class="spectrum-Popover spectrum-Popover--bottom spectrum-Dropdown-popover ${classMap(classes)}" style="${styleMap(styles)}" @click="${(!this.disabled)? this.handleClick: this.handleDisabledClick}">
         <slot name="dropdown-content"></slot>
     </div>
     `;

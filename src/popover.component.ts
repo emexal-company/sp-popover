@@ -12,7 +12,7 @@
     limitations under the License.
 */
 
-import { customElement, property } from 'lit-element';
+import { customElement, property, query } from 'lit-element';
 import { Base } from '@spectrum/sp-base';
 import popoverStyles from './popover.styles';
 import template from './popover.template';
@@ -24,15 +24,39 @@ export type NestableMenuElement = MenuElement | { [k: string]: MenuElement };
 export class Popover extends Base {
   public static componentStyles = [popoverStyles];
 
-   @property({ type: Boolean }) open = false;
-   @property({ type: Boolean }) disabled = false;
-
+  @property({ type: Boolean }) open = false;
+  @property({ type: Boolean }) disabled = false;
+  @property({ type: Number }) maxHeight: number = undefined;
+  @query('#popover-element') popoverElement: HTMLElement;
 
   constructor() {
     super();
+
+    window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
   }
 
-  firstUpdated() {
+  public connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.recomputeMaxHeight.bind(this));
+    window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
+  }
+
+  public disconnectedCallback() {
+    window.removeEventListener('resize', this.recomputeMaxHeight.bind(this));
+    window.removeEventListener('scroll', this.recomputeMaxHeight.bind(this));
+    super.disconnectedCallback();
+  }
+
+  protected recomputeMaxHeight() {
+    const elRect = this.popoverElement.getBoundingClientRect();
+    const docRect = document.body.getBoundingClientRect();
+
+    this.maxHeight = docRect.height - elRect.top - 30;
+  }
+
+  protected firstUpdated() {
+    this.recomputeMaxHeight();
+
     if (!this.disabled) {
       document.addEventListener('click', this._handleDocumentClick.bind(this));
     }
@@ -52,7 +76,7 @@ export class Popover extends Base {
     }
   }
 
-  protected handleDisabledClick(e: Event) {}
+  protected handleDisabledClick(_e: Event) { }
 
   protected handleClick(e: any) {
     let changedEvent = new CustomEvent('changed', {
