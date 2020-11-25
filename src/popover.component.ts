@@ -49,9 +49,9 @@ export class Popover extends Base {
 
   protected recomputeMaxHeight() {
     const elRect = this.popoverElement.getBoundingClientRect();
-    const docRect = document.body.getBoundingClientRect();
+    const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-    this.maxHeight = docRect.height - elRect.top - 30;
+    this.maxHeight = docHeight - elRect.top - 30;
   }
 
   protected firstUpdated() {
