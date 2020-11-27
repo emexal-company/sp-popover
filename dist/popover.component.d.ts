@@ -28,6 +28,8 @@ export declare class Popover extends Base {
     maxHeight: number;
     popoverElement: HTMLElement;
     constructor();
+    connectedCallback(): void;
+    disconnectedCallback(): void;
     protected recomputeMaxHeight(): void;
     protected firstUpdated(): void;
     protected handleSlotChange(): void;

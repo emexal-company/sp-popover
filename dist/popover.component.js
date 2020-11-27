@@ -23,6 +23,16 @@ let Popover = class Popover extends Base {
         this.disabled = false;
         this.maxHeight = undefined;
     }
+    connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('resize', this.recomputeMaxHeight.bind(this));
+        window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
+    }
+    disconnectedCallback() {
+        window.removeEventListener('resize', this.recomputeMaxHeight.bind(this));
+        window.removeEventListener('scroll', this.recomputeMaxHeight.bind(this));
+        super.disconnectedCallback();
+    }
     recomputeMaxHeight() {
         if (this.popoverElement) {
             const elRect = this.popoverElement.getBoundingClientRect();

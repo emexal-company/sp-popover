@@ -33,6 +33,18 @@ export class Popover extends Base {
     super();
   }
 
+  public connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.recomputeMaxHeight.bind(this));
+    window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
+  }
+
+  public disconnectedCallback() {
+    window.removeEventListener('resize', this.recomputeMaxHeight.bind(this));
+    window.removeEventListener('scroll', this.recomputeMaxHeight.bind(this));
+    super.disconnectedCallback();
+  }
+
   protected recomputeMaxHeight() {
     if (this.popoverElement) {
       const elRect = this.popoverElement.getBoundingClientRect();
