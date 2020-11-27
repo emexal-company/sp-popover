@@ -35,7 +35,7 @@ export default function template(this: Popover) {
     <slot name="dropdown-trigger"></slot>
     <slot name="return-toline"></slot>
     <div id="popover-element" class="spectrum-Popover spectrum-Popover--bottom spectrum-Dropdown-popover ${classMap(classes)}" style="${styleMap(styles)}" @click="${(!this.disabled)? this.handleClick: this.handleDisabledClick}">
-        <slot name="dropdown-content"></slot>
+        <slot name="dropdown-content" @slotchange="${this.handleSlotChange}"></slot>
     </div>
     `;
 }

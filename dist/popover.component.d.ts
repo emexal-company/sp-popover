@@ -30,6 +30,7 @@ export declare class Popover extends Base {
     constructor();
     protected recomputeMaxHeight(): void;
     protected firstUpdated(): void;
+    protected handleSlotChange(): void;
     protected _handleDocumentClick(e: any): void;
     protected handleDisabledClick(_e: Event): void;
     protected handleClick(e: any): void;

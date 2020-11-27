@@ -48,6 +48,10 @@ export class Popover extends Base {
     }
   }
 
+  protected handleSlotChange() {
+    this.requestUpdate();
+  }
+
   protected _handleDocumentClick(e: any) {
     if ((!this.open) && e.path.some((el: any) => el === this) && (this != e.path[0])) {
       this.open = true;

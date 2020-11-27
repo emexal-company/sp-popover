@@ -35,6 +35,9 @@ let Popover = class Popover extends Base {
             document.addEventListener('click', this._handleDocumentClick.bind(this));
         }
     }
+    handleSlotChange() {
+        this.requestUpdate();
+    }
     _handleDocumentClick(e) {
         if ((!this.open) && e.path.some((el) => el === this) && (this != e.path[0])) {
             this.open = true;
