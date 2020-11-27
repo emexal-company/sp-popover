@@ -31,32 +31,18 @@ export class Popover extends Base {
 
   constructor() {
     super();
-
-    window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
-  }
-
-  public connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.recomputeMaxHeight.bind(this));
-    window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
-  }
-
-  public disconnectedCallback() {
-    window.removeEventListener('resize', this.recomputeMaxHeight.bind(this));
-    window.removeEventListener('scroll', this.recomputeMaxHeight.bind(this));
-    super.disconnectedCallback();
   }
 
   protected recomputeMaxHeight() {
-    const elRect = this.popoverElement.getBoundingClientRect();
-    const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    if (this.popoverElement) {
+      const elRect = this.popoverElement.getBoundingClientRect();
+      const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-    this.maxHeight = docHeight - elRect.top - 30;
+      this.maxHeight = docHeight - elRect.top - 10;
+    }
   }
 
   protected firstUpdated() {
-    this.recomputeMaxHeight();
-
     if (!this.disabled) {
       document.addEventListener('click', this._handleDocumentClick.bind(this));
     }
@@ -88,6 +74,8 @@ export class Popover extends Base {
   }
 
   protected render() {
+    this.recomputeMaxHeight();
+
     return template.call(this);
   }
 }

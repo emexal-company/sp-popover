@@ -22,25 +22,15 @@ let Popover = class Popover extends Base {
         this.open = false;
         this.disabled = false;
         this.maxHeight = undefined;
-        window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        window.addEventListener('resize', this.recomputeMaxHeight.bind(this));
-        window.addEventListener('scroll', this.recomputeMaxHeight.bind(this));
-    }
-    disconnectedCallback() {
-        window.removeEventListener('resize', this.recomputeMaxHeight.bind(this));
-        window.removeEventListener('scroll', this.recomputeMaxHeight.bind(this));
-        super.disconnectedCallback();
     }
     recomputeMaxHeight() {
-        const elRect = this.popoverElement.getBoundingClientRect();
-        const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        this.maxHeight = docHeight - elRect.top - 30;
+        if (this.popoverElement) {
+            const elRect = this.popoverElement.getBoundingClientRect();
+            const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            this.maxHeight = docHeight - elRect.top - 10;
+        }
     }
     firstUpdated() {
-        this.recomputeMaxHeight();
         if (!this.disabled) {
             document.addEventListener('click', this._handleDocumentClick.bind(this));
         }
@@ -68,6 +58,7 @@ let Popover = class Popover extends Base {
         this.dispatchEvent(changedEvent);
     }
     render() {
+        this.recomputeMaxHeight();
         return template.call(this);
     }
 };
