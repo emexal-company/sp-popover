@@ -37,7 +37,7 @@ let Popover = class Popover extends Base {
         if (this.popoverElement) {
             const elRect = this.popoverElement.getBoundingClientRect();
             const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-            this.maxHeight = docHeight - elRect.top - 10;
+            this.maxHeight = docHeight - elRect.top - 25;
         }
     }
     firstUpdated() {
@@ -46,6 +46,7 @@ let Popover = class Popover extends Base {
         }
     }
     handleSlotChange() {
+        this.recomputeMaxHeight();
         this.requestUpdate();
     }
     _handleDocumentClick(e) {
@@ -71,7 +72,6 @@ let Popover = class Popover extends Base {
         this.dispatchEvent(changedEvent);
     }
     render() {
-        this.recomputeMaxHeight();
         return template.call(this);
     }
 };

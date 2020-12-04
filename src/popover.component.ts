@@ -50,7 +50,7 @@ export class Popover extends Base {
       const elRect = this.popoverElement.getBoundingClientRect();
       const docHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-      this.maxHeight = docHeight - elRect.top - 10;
+      this.maxHeight = docHeight - elRect.top - 25;
     }
   }
 
@@ -61,6 +61,8 @@ export class Popover extends Base {
   }
 
   protected handleSlotChange() {
+    this.recomputeMaxHeight();
+
     this.requestUpdate();
   }
 
@@ -72,8 +74,7 @@ export class Popover extends Base {
         composed: true
       });
       this.dispatchEvent(openEvent);
-    }
-    else {
+    } else {
       this.open = false;
     }
   }
@@ -90,8 +91,6 @@ export class Popover extends Base {
   }
 
   protected render() {
-    this.recomputeMaxHeight();
-
     return template.call(this);
   }
 }
