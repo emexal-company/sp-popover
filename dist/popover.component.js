@@ -72,6 +72,7 @@ let Popover = class Popover extends Base {
         this.dispatchEvent(changedEvent);
     }
     render() {
+        this.recomputeMaxHeight();
         return template.call(this);
     }
 };

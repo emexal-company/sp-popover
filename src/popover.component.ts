@@ -91,6 +91,8 @@ export class Popover extends Base {
   }
 
   protected render() {
+    this.recomputeMaxHeight();
+    
     return template.call(this);
   }
 }
